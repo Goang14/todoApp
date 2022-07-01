@@ -12,15 +12,15 @@
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group label="Tên">
-          <b-form-input v-model="students.name"></b-form-input>
+          <b-form-input v-model="list.name"></b-form-input>
         </b-form-group>
         
          <b-form-group label="Tuổi">
-          <b-form-input  v-model="students.age"></b-form-input>
+          <b-form-input  v-model="list.age"></b-form-input>
         </b-form-group>
         
          <b-form-group label="Địa Chỉ">
-          <b-form-input  v-model="students.address"></b-form-input>
+          <b-form-input  v-model="list.address"></b-form-input>
         </b-form-group>
         
       </form>
@@ -28,65 +28,86 @@
   </div>
 </template>
 
+
 <script>
+  import { mapActions } from 'vuex';
   export default {
-    props:{
-      itemEdit: {
-        type: Object,
-        default: null,
+      name: "AddTodo",
+      props:{
+        edit:{
+          type: Object,
+          default: null,
+          }
+        },
+      watch:{
+        edit(){
+          if(this.edit){
+            this.list={
+              ...this.list,
+              ...this.edit
+            }
+          }
         }
       },
-
-      watch:{
-        itemEdit() {
-          if(this.itemEdit){
-            this.students = Object.assign({}, this.itemEdit)
-          }else{
-            this.students = {}
+      data() {
+        return {
+          list:{
+            id: "",
+            name:"",
+            age: "",
+            address: "",
           }
         }
       },
 
-    data() {
-      return {
-         students: {
-            id: Math.floor(Math.random()*10000),
-            name:"",
-            age: "",
-            address: "",
-            },
-         }
-    },
-    methods: {
+      methods: {
+      ...mapActions(["addTodo", "editTodo"]),
       checkFormValidity() {
         const valid = this.$refs.form.checkValidity()
         this.nameState = valid
         return valid
       },
+
       resetModal() {
-        this.name = ''
-        this.age = ''
-        this.address = ''
+        this.list ={
+           id: "",
+            name:"",
+            age: "",
+            address: "",
+        }
+        this.$emit("closeForm");
       },
+
       handleOk(bvModalEvent) {
-        this.$emit("save", this.students)
-        bvModalEvent.preventDefault()
-        // Trigger submit handler
+        bvModalEvent.preventDefault();
+          if(this.edit){
+            this.editTodo(this.list)
+          }else{
+            this.addTodo(this.list);
+          }
+          
+          this.list ={
+            id: "",
+            name:"",
+            age: "",
+            address: "",
+          }
         this.handleSubmit();
       },
+
       handleSubmit() {
-        // Exit when the form isn't valid
         if (!this.checkFormValidity()) {
           return
         }
-          this.students= {
-            id: Math.floor(Math.random()*10000),
+          this.list = {
+            id: Math.floor(Math.random()*100),
             name:"",
             age: "",
             address: "",
             }
-        this.$nextTick(() => {
-          this.$bvModal.hide('modal-prevent-closing')
+          this.$nextTick(() => {
+          this.$bvModal.hide('modal-prevent-closing');
+          this.$emit("closeForm");
         })
       },
     }
