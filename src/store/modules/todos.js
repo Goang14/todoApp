@@ -17,6 +17,7 @@ const mutations = {
         const index = state.todos.findIndex(todo => todo.id === updatedTodo.id);
         if (index !== -1) {
           state.todos[index]= updatedTodo;
+          state.todos = [...state.todos];
         }
     },
     addTodo:(state,newTodo) => state.todos = [newTodo,...state.todos]

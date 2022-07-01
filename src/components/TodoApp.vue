@@ -1,7 +1,7 @@
 <template>  
     <div class="product">  
-      <h1>Quản Lý Sinh Viên</h1>
-      <FormView :edit="itemEdit" @closeForm="itemEdit = null" />
+      <h1>TodoApp</h1>
+      <FormView :edit="itemEdit" @closeForm="itemEdit = null" /> <br>
       <table class="table">
         <thead>
           <tr>
@@ -9,8 +9,8 @@
             <th scope="col">Name</th>
             <th scope="col">Age</th>
             <th scope="col">Address</th>
-            <th scope="col">Xóa</th>
-            <th scope="col">Sửa</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -19,8 +19,8 @@
             <td>{{ todo.name }}</td>
             <td>{{ todo.age }}</td>
             <td>{{ todo.address }}</td>
-             <td><button v-on:click="deleteTodo(todo.id)">Xóa</button></td>
-            <td><button @click = "()=>clickEdit(todo)" >Sửa</button></td>
+             <td><button v-on:click="deleteTodo(todo.id)">Delete</button></td>
+            <td><button @click = "()=>clickEdit(todo)" >Edit</button></td>
           </tr>   
         </tbody>
       </table>

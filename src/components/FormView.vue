@@ -80,18 +80,11 @@
 
       handleOk(bvModalEvent) {
         bvModalEvent.preventDefault();
-          if(this.edit){
-            this.editTodo(this.list)
-          }else{
-            this.addTodo(this.list);
-          }
-          
-          this.list ={
-            id: "",
-            name:"",
-            age: "",
-            address: "",
-          }
+        if(this.edit){
+          this.editTodo(this.list)
+        }else{
+          this.addTodo(this.list);
+        }
         this.handleSubmit();
       },
 
@@ -99,15 +92,15 @@
         if (!this.checkFormValidity()) {
           return
         }
-          this.list = {
-            id: Math.floor(Math.random()*100),
-            name:"",
-            age: "",
-            address: "",
-            }
-          this.$nextTick(() => {
-          this.$bvModal.hide('modal-prevent-closing');
-          this.$emit("closeForm");
+        this.list = {
+          id:"",
+          name:"",
+          age: "",
+          address: "",
+        }
+        this.$nextTick(() => {
+        this.$bvModal.hide('modal-prevent-closing');
+        this.$emit("closeForm");
         })
       },
     }
